@@ -1,0 +1,76 @@
+syntax= "proto3";
+
+package filetransfer;
+option go_package="./protobuf";
+
+// for file upload
+message UploadFileRequest{
+    oneof data{
+        string file_name=1;
+        bytes chunk_data=2;
+    };
+}
+
+
+message UploadFileResponse{
+    string result=1;
+}
+
+
+// for word count
+message WordCountRequest{}
+
+message WordCountResponse{
+    int64 result=1;
+}
+
+// for Least Word Count
+message LeastWordCountRequest{}
+
+message LeastWordCountResponse{
+    repeated string result=1;
+}
+
+// for file list
+message ListFileRequest{}
+
+message ListFileResponse{
+    repeated string result=1;
+}
+
+// file delete
+message DeleteFileRequest {
+    string file_name=1;
+}
+
+message DeleteFileResponse {
+    string result=1;
+}
+
+// file update
+message UpdateFileRequest{
+    oneof data{
+        string file_name=1;
+        bytes chunk_data=2;
+    };
+}
+
+message UpdateFileResponse{
+    string result=1;
+}
+
+service FileService{
+    // client Stream
+    rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse) {};
+    
+    rpc GetFiles(ListFileRequest) returns (ListFileResponse) {};
+
+    rpc DeleteFiles(DeleteFileRequest) returns (DeleteFileResponse) {};
+
+    rpc UpdateFile(stream UpdateFileRequest) returns (UpdateFileResponse) {};
+
+    rpc WordCount(WordCountRequest) returns (WordCountResponse) {};
+
+    rpc LeastWordCount(LeastWordCountRequest) returns (LeastWordCountResponse) {};
+
+}
